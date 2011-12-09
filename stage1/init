@@ -19,7 +19,7 @@ mknod -m 0644 /dev/mem c 1 1
 
 insmod /lib/modules/fsr.ko
 insmod /lib/modules/fsr_stl.ko
-insmod /lib/modules/storage.ko
+
 
 mount -t proc proc /proc
 mount -t sysfs sysfs /sys
