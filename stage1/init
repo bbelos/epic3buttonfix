@@ -5,16 +5,21 @@ export PATH="/stage1"
 cd /
 
 mkdir -p /dev/block
-mknod -m 0644 /dev/block/bml6 b 137 6
-mknod -m 0644 /dev/block/stl6 b 138 6
+mkdir -p /sdcard
 
 mknod -m 0644 /dev/block/mmcblk0 b 179 0
 mknod -m 0644 /dev/block/mmcblk0p1 b 179 1
+
+busybox mount -t vfat /dev/block/mmcblk0p1 /sdcard
+busybox date >>boot.txt
+exec >>/sdcard/boot.txt 2>&1 
 
 mkdir -p /mnt/.lfs
 mkdir -p /proc
 mkdir -p /sys
 
+mknod -m 0644 /dev/block/bml6 b 137 6
+mknod -m 0644 /dev/block/stl6 b 138 6
 mknod -m 0644 /dev/mem c 1 1
 
 insmod /lib/modules/fsr.ko
@@ -41,6 +46,6 @@ umount /proc
 
 rm -rf /stage1 
 rm -rf /dev/*
-
+busybox date >>/sdcard/boot.txt
 reboot
 
